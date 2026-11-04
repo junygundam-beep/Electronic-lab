@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ELECTRO LAB</title>
+<style>
+:root {
+  --site-primary:#087bdc;
+  --site-secondary:#082b43;
+  --site-background:#03101e;
+  --site-on-primary:#ffffff;
+  --site-on-secondary:#e6f7ff;
+  --site-on-background:#eaf5ff;
+  --site-font-body:Inter,"Noto Sans KR",Arial,sans-serif;
+  --site-font-heading:Inter,"Noto Sans KR",Arial,sans-serif;
+  --site-heading-scale:1;
+  --site-spacing-scale:1;
+  --site-radius-scale:1;
+  --site-decoration-opacity:1;
+  --bg:#061725;
+  --panel:#0b2232;
+  --panel2:#071a2a;
+  --line:#17445f;
+  --cyan:#39d7ff;
+  --muted:#91adbd;
+  --white:#eaf5ff;
+  --green:#48e6b0;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--site-background);color:var(--white);font-family:var(--site-font-body)}
+button,input,select{font:inherit}
+button{cursor:pointer}
+#app{min-height:100vh;width:100%;background-color:var(--site-background);color:var(--site-on-background);border-radius:0;overflow:hidden}
+header{height:78px;background:#020d19;border-bottom:1px solid #17354c;display:flex;align-items:center;gap:24px;padding:0 clamp(18px,4vw,48px);position:sticky;top:0;z-index:20}
+.brand{display:flex;align-items:center;gap:12px;font-weight:900;letter-spacing:.7px;font-size:20px;white-space:nowrap}
+.brand-mark{width:39px;height:39px;border:2px solid #00bfff;border-radius:12px;display:grid;place-items:center;color:#39d7ff;box-shadow:0 0 18px #00bfff33;font-size:21px}
+nav{display:flex;gap:9px;align-items:center;margin:auto}
+nav button{background:#071a2c;border:1px solid #1b557e;color:#e5f3ff;padding:13px 17px;border-radius:12px;font-size:12px;font-weight:800;letter-spacing:.2px;white-space:nowrap}
+nav button.active,nav button:hover{background:#087bdc;border-color:#28aaff;color:white;box-shadow:0 5px 18px #087bdc55}
+.online{color:var(--green);font-size:12px;font-weight:900;white-space:nowrap}
+.online:before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);margin-right:8px;box-shadow:0 0 12px var(--green)}
+main{min-height:calc(100vh - 78px)}
+.page{display:none;min-height:calc(100vh - 78px)}
+.page.active{display:block}
+.home{position:relative;padding:0 18px 42px;background:
+radial-gradient(ellipse at 50% 22%,#07517b66 0,transparent 42%),
+radial-gradient(ellipse at 10% 45%,#0a477055 0,transparent 35%),
+radial-gradient(ellipse at 90% 60%,#063e6955 0,transparent 38%),
+linear-gradient(180deg,#061a2d 0%,#03101f 100%);isolation:isolate}
+.home:before{content:"";position:absolute;inset:0;z-index:-1;opacity:var(--site-decoration-opacity);background-image:
+linear-gradient(90deg,transparent 49%,#0c7db322 50%,transparent 51%),
+linear-gradient(0deg,transparent 49%,#0c7db322 50%,transparent 51%),
+radial-gradient(circle at 20% 20%,#24cfff55 1px,transparent 3px),
+radial-gradient(circle at 80% 35%,#24cfff44 1px,transparent 3px);
+background-size:58px 58px,58px 58px,130px 110px,160px 130px}
+.hero{text-align:center;padding:82px 15px 72px;position:relative}
+.hero:after{content:"ELECTRO LAB";position:absolute;left:0;right:0;bottom:0;font-size:clamp(54px,11vw,118px);font-weight:1000;font-style:italic;letter-spacing:-4px;color:#b8d9ed12;z-index:-1;white-space:nowrap;overflow:hidden}
+.eyebrow{display:inline-block;border:1px solid #079bd5;border-radius:30px;padding:8px 15px;color:#53d8ff;font-size:11px;letter-spacing:1.4px;font-weight:900;background:#04253b99}
+.hero h1{font-size:clamp(42px,6vw,64px);letter-spacing:1px;margin:20px 0 6px;font-weight:950}
+.hero p{color:#d1e3ef;line-height:1.9;margin:0;font-size:15px}
+.section-head{display:flex;justify-content:space-between;align-items:center;margin:4px 0 18px}
+.section-head h2{font-size:21px;margin:0;font-weight:900}
+.section-head span{font-size:12px;color:#9bb4c4}
+.about{border:1px solid #1a4d6b;background:#031629eF;border-radius:20px;padding:25px 28px;display:grid;grid-template-columns:1.2fr .8fr;gap:32px;margin-bottom:40px}
+.about h3{font-size:20px;margin:0 0 12px}
+.about p{color:#b8cbd8;line-height:1.8;font-size:14px;margin:0}
+.about-list{display:grid;gap:14px;align-content:center}
+.about-list div{display:flex;gap:16px;align-items:center;font-size:13px;font-weight:700}
+.about-list b{color:var(--cyan);font-size:16px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.step{background:#031629eF;border:1px solid #174968;border-radius:19px;padding:22px;min-height:164px}
+.step small{color:#45d4ff;font-size:10px;font-weight:900;letter-spacing:1px}
+.step h3{font-size:17px;margin:14px 0 7px}
+.step p{font-size:13px;line-height:1.7;color:#b4c8d7;margin:0}
+.page-wrap{max-width:1250px;margin:auto;padding:40px clamp(18px,4.8vw,52px) 60px}
+.kicker{color:#54dfff;font-size:11px;font-weight:900;letter-spacing:1.8px;margin-bottom:12px}
+.page-title{font-size:clamp(34px,4vw,44px);margin:0 0 10px;letter-spacing:-1.5px}
+.lead{color:#9db5c4;line-height:1.8;font-size:14px;max-width:760px;margin:0 0 30px}
+.analysis{background:repeating-linear-gradient(135deg,#071a28 0,#071a28 24px,#092033 25px,#071a28 26px)}
+.analysis-grid{display:grid;grid-template-columns:372px 1fr;gap:18px}
+.panel{background:linear-gradient(145deg,#102d3d,#081d2b);border:1px solid #1c465d;border-radius:19px;overflow:hidden}
+.panel-head{padding:20px 22px;border-bottom:1px solid #1b4055;display:flex;justify-content:space-between;font-size:13px;font-weight:900}
+.panel-head span{font-size:10px;color:#56dfff;letter-spacing:1px}
+.controls{padding:21px 22px}
+.field{margin-bottom:17px}
+.field label{display:flex;justify-content:space-between;color:#b8cbd6;font-size:12px;margin-bottom:8px}
+.field label em{font-style:normal;color:#5bdcff;font-size:10px}
+.field input,.field select,.mission-input{width:100%;background:#061a28;color:#eaf7ff;border:1px solid #315368;border-radius:10px;padding:13px 14px;outline:none}
+.field input:focus,.field select:focus,.mission-input:focus{border-color:#39d7ff;box-shadow:0 0 0 3px #39d7ff20}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.hint{font-size:11px;color:#829eaf;line-height:1.6;margin:12px 0 0}
+.result{border-top:1px solid #1b4055;padding:20px 22px}
+.result-label{font-size:10px;color:#8caaba;margin-bottom:13px}
+.big-number{font-size:36px;font-weight:900;color:#58dcf7;letter-spacing:-1px}
+.big-number small{font-size:13px;color:#a5bdca;font-weight:500}
+.metrics{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px}
+.metric{background:#061925;border:1px solid #18394b;border-radius:12px;padding:12px}
+.metric small{display:block;color:#8ba8b8;font-size:10px;margin-bottom:6px}
+.metric strong{font-size:16px}
+.analysis-right{display:grid;gap:18px}
+.circuit-panel{min-height:296px}
+.circuit-body{padding:12px 18px 20px}
+.circuit-meta{display:flex;justify-content:space-between;color:#91adbd;font-size:10px;padding:5px 4px 12px}
+svg.circuit{width:100%;height:190px;display:block}
+.wire{stroke:#79b8ca;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.part{fill:#0b2c3d;stroke:#46d9fa;stroke-width:2}
+.svgtext{fill:#e5f7ff;font:12px Arial,sans-serif}
+.graph-panel{min-height:350px}
+.graph-body{padding:12px 20px 18px}
+.graph-caption{font-size:10px;color:#91adbd;margin:0 0 8px}
+canvas{width:100%;height:260px;display:block}
+.missions{background:linear-gradient(145deg,#061827,#071d2c)}
+.mission-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.mission-card{background:linear-gradient(145deg,#102b3b,#071b2a);border:1px solid #1b4a64;border-radius:18px;padding:22px;min-height:230px;display:flex;flex-direction:column}
+.level{font-size:10px;color:#53dfff;font-weight:900;letter-spacing:1px}
+.mission-card h3{font-size:19px;margin:13px 0 8px}
+.mission-card p{font-size:13px;color:#a9bfcc;line-height:1.7;margin:0 0 15px}
+.spec{font-size:11px;color:#d4e8f3;background:#061725;border:1px solid #1a3e52;border-radius:9px;padding:10px;margin-top:auto}
+.action{border:0;border-radius:10px;background:#087bdc;color:white;padding:12px 15px;font-weight:900;font-size:12px;margin-top:14px}
+.action:hover{background:#1599f5}
+.secondary{background:#0b293c;border:1px solid #1c5a7c;color:#bdefff}
+.detail{display:none;margin-top:20px;background:#081e2d;border:1px solid #1d4d67;border-radius:18px;padding:24px}
+.detail.show{display:block}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.detail h3{margin:0 0 10px}
+.detail p,.detail li{font-size:13px;line-height:1.75;color:#b3c9d6}
+.design-controls{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:15px 0}
+.feedback{padding:14px;border-radius:12px;background:#092d3a;border:1px solid #176078;color:#bdeeff;font-size:13px;line-height:1.7;margin-top:14px}
+.learning{background:linear-gradient(135deg,#061827,#071b2b)}
+.topic-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:26px 0}
+.topic{padding:19px 14px;background:#0c2637;border:1px solid #1b4b65;border-radius:15px;color:#e9f7ff;text-align:left;min-height:125px}
+.topic.active,.topic:hover{border-color:#38d8ff;background:#0d3348}
+.topic b{display:block;color:#4bdcff;font-size:11px;margin-bottom:13px}
+.topic strong{font-size:14px}
+.lesson{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.lesson-box{background:#0b2434;border:1px solid #1b465e;border-radius:17px;padding:22px}
+.lesson-box h3{margin:0 0 12px;font-size:17px}
+.lesson-box p,.lesson-box li{font-size:13px;color:#b6cbd8;line-height:1.8}
+.formula{font-size:25px;color:#53dcfa;font-weight:900;text-align:center;padding:15px;background:#061a28;border-radius:12px;margin:14px 0}
+.quiz-options{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.quiz-options button{background:#071a29;border:1px solid #31566b;color:#d9effa;padding:12px;border-radius:9px;text-align:left}
+.quiz-options button:hover{border-color:#43dafa}
+.quiz-feedback{font-size:12px;margin-top:12px;color:#55dfb5;min-height:20px}
+.footer{padding:22px;text-align:center;color:#658394;border-top:1px solid #17354a;font-size:11px}
+@media(max-width:900px){header{height:auto;min-height:72px;flex-wrap:wrap;padding:12px 18px;gap:12px}.brand{font-size:17px}nav{order:3;width:100%;overflow:auto;margin:0}nav button{padding:10px 12px}.online{margin-left:auto}.analysis-grid{grid-template-columns:1fr}.mission-grid{grid-template-columns:1fr}.topic-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.hero{padding:65px 8px 55px}.hero p{font-size:13px}.about{grid-template-columns:1fr;padding:20px}.steps{grid-template-columns:1fr}.section-head span{display:none}.two,.metrics,.detail-grid,.lesson{grid-template-columns:1fr}.design-controls{grid-template-columns:1fr}.page-wrap{padding-top:28px}.topic-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div id="app">
+<header>
+  <div class="brand"><div class="brand-mark">▦</div>ELECTRO LAB</div>
+  <nav>
+    <button class="active" data-page="home">⌂ HOME</button>
+    <button data-page="analysis">▥ CIRCUIT ANALYSIS</button>
+    <button data-page="missions">⌁ DESIGN MISSION</button>
+    <button data-page="learning">▣ LEARNING CENTER</button>
+  </nav>
+  <div class="online">ONLINE</div>
+</header>
+<main>
+<section id="home" class="page active home">
+  <div class="hero">
+    <div class="eyebrow">VIRTUAL ELECTRONICS LABORATORY</div>
+    <h1>ELECTRO LAB</h1>
+    <p>전자회로를 직접 계산하고 설계하며 원리를 이해하는 가상 전자공학 실습실입니다.<br>회로 분석부터 설계 미션까지, 단계별 실습을 통해 전자공학의 기초를 익혀보세요.</p>
+  </div>
+  <div class="section-head"><h2>ABOUT ELECTRO LAB</h2><span>전자회로를 배우고, 분석하고, 설계하는 공간</span></div>
+  <div class="about">
+    <div><h3>전자회로의 원리를 직접 확인해 보세요.</h3><p>ELECTRO LAB은 전압·전류·저항의 관계를 계산하고, 다양한 회로의 동작을 비교하며, 주어진 조건에 맞는 회로를 설계해 보는 학습 공간입니다. 공식을 외우는 데서 그치지 않고 입력값을 바꾸었을 때 회로의 결과가 어떻게 달라지는지 직접 확인할 수 있습니다.</p></div>
+    <div class="about-list"><div><b>01</b> 회로의 전압·전류·저항 분석</div><div><b>02</b> 조건에 맞는 전자회로 설계</div><div><b>03</b> 핵심 개념과 공식 학습</div></div>
+  </div>
+  <div class="section-head"><h2>PRACTICE GUIDE</h2><span>처음 방문했다면 아래 순서대로 실습해 보세요.</span></div>
+  <div class="steps">
+    <div class="step"><small>STEP 01</small><h3>개념 확인하기</h3><p>학습 센터에서 옴의 법칙과 직렬·병렬 회로의 기본 원리를 먼저 확인합니다.</p><button class="action secondary" onclick="go('learning')">학습 시작하기 →</button></div>
+    <div class="step"><small>STEP 02</small><h3>회로 분석하기</h3><p>전압이나 저항값을 바꾸어 전류가 어떻게 변하는지 계산하고 그래프로 비교합니다.</p><button class="action secondary" onclick="go('analysis')">회로 분석하기 →</button></div>
+    <div class="step"><small>STEP 03</small><h3>설계 미션 도전하기</h3><p>주어진 전압과 전류 조건을 만족하도록 부품값을 선택하고 설계 결과를 확인합니다.</p><button class="action secondary" onclick="go('missions')">미션 도전하기 →</button></div>
+  </div>
+</section>
+<section id="analysis" class="page analysis">
+ <div class="page-wrap">
+  <div class="kicker">VIRTUAL CIRCUIT LAB / 01</div><h1 class="page-title">Circuit Analysis</h1>
+  <p class="lead">전압과 저항을 직접 조절하고, 회로에 흐르는 전류가 어떻게 달라지는지 확인해 보세요. 회로 유형을 바꾸면 등가 저항과 측정 결과, 그래프가 실시간으로 업데이트됩니다.</p>
+  <div class="analysis-grid">
+   <div class="panel">
+    <div class="panel-head">INPUT PARAMETERS <span>LIVE CONTROL</span></div>
+    <div class="controls">
+     <div class="field"><label>전압 설정 <em>VOLTAGE (V)</em></label><input id="voltage" type="number" min="0.1" step="0.5" value="12"></div>
+     <div class="field"><label>회로 유형 <em>CIRCUIT TYPE</em></label><select id="topology"><option value="series">직렬 회로 (Series)</option><option value="parallel">병렬 회로 (Parallel)</option><option value="single">단일 저항 (Single)</option></select></div>
+     <div class="two">
+      <div class="field"><label>저항 R₁ <em>Ω</em></label><input id="r1" type="number" min="1" value="100"></div>
+      <div class="field"><label>저항 R₂ <em>Ω</em></label><input id="r2" type="number" min="1" value="200"></div>
+     </div>
+     <p class="hint">※ 계산은 이상적인 직류 회로를 가정합니다. 저항값은 1Ω보다 크게 입력해 주세요.</p>
+    </div>
+    <div class="result"><div class="result-label">CALCULATED RESULT · 전체 회로 기준</div><div class="big-number"><span id="currentMa">40.00</span> <small>mA</small></div>
+     <div class="metrics"><div class="metric"><small>등가 저항 R</small><strong id="eqR">300.00 Ω</strong></div><div class="metric"><small>전체 전류 I</small><strong id="currentA">0.0400 A</strong></div><div class="metric"><small>전체 전력 P</small><strong id="power">0.480 W</strong></div><div class="metric"><small>회로 전압 V</small><strong id="voltageOut">12.0 V</strong></div></div>
+    </div>
+   </div>
+   <div class="analysis-right">
+    <div class="panel circuit-panel"><div class="panel-head">LIVE CIRCUIT VIEW <span id="typeLabel">SERIES</span></div><div class="circuit-body"><div class="circuit-meta"><span>선택한 회로의 개략도</span><span>DC SOURCE</span></div><div id="circuitSvg"></div></div></div>
+    <div class="panel graph-panel"><div class="panel-head">RESISTANCE vs CURRENT <span>LIVE GRAPH</span></div><div class="graph-body"><p class="graph-caption">저항값 변화에 따른 전체 전류 변화 · X축: 저항(Ω) / Y축: 전류(mA)</p><canvas id="graph" width="760" height="310"></canvas></div></div>
+   </div>
+  </div>
+ </div>
+</section>
+<section id="missions" class="page missions">
+ <div class="page-wrap">
+  <div class="kicker">DESIGN CHALLENGE / 02</div><h1 class="page-title">DESIGN MISSION</h1>
+  <p class="lead">주어진 설계 조건을 분석하고 직접 회로를 완성해 보세요. 미션을 선택하면 필요한 이론과 설계 도구가 열립니다.</p>
+  <div class="mission-grid">
+   <article class="mission-card"><span class="level">MISSION 01 · BEGINNER</span><h3>기본 회로 설계</h3><p>옴의 법칙을 활용해 목표 전류에 맞는 저항값을 설계하라.</p><div class="spec">전압 5V · 목표 전류 10mA · 저항 1개</div><button class="action" onclick="openMission(1)">미션 시작하기 →</button></article>
+   <article class="mission-card"><span class="level">MISSION 02 · INTERMEDIATE</span><h3>직렬·병렬회로 분석</h3><p>두 저항의 연결 방식에 따른 합성저항과 전체 전류를 비교하라.</p><div class="spec">전압 12V · R₁ 100Ω · R₂ 200Ω</div><button class="action" onclick="openMission(2)">미션 시작하기 →</button></article>
+   <article class="mission-card"><span class="level">MISSION 03 · ADVANCED</span><h3>회로 설계 최적화</h3><p>목표 전류를 만족하도록 저항을 선택하고 회로를 설계하라.</p><div class="spec">전압 9V · 목표 전류 20mA · 저항 1개 이상</div><button class="action" onclick="openMission(3)">미션 시작하기 →</button></article>
+  </div>
+  <div id="missionDetail" class="detail">
+   <div class="section-head"><h2 id="missionTitle">MISSION DETAIL</h2><button class="action secondary" onclick="closeMission()">목록으로</button></div>
+   <div class="detail-grid">
+    <div><h3>MISSION BRIEF</h3><p id="missionBrief"></p><h3>이론 및 힌트</h3><p id="missionTheory"></p><button class="action secondary" onclick="go('learning')">관련 이론 학습하기 →</button></div>
+    <div><h3>회로 설계 입력</h3><div id="missionInputs"></div><div id="missionOutput" class="feedback">저항값을 입력하면 설계 결과가 표시됩니다.</div></div>
+   </div>
+  </div>
+ </div>
+</section>
+<section id="learning" class="page learning">
+ <div class="page-wrap">
+  <div class="kicker">KNOWLEDGE BASE / 03</div><h1 class="page-title">LEARNING CENTER</h1>
+  <p class="lead">전자회로의 기초 원리를 이해하고 직접 적용해 보세요. 주제를 선택하면 핵심 개념부터 계산 예시와 확인 퀴즈까지 학습할 수 있습니다.</p>
+  <div class="topic-grid" id="topicGrid">
+   <button class="topic active" data-topic="ohm"><b>01 · BASICS</b><strong>옴의 법칙</strong></button>
+   <button class="topic" data-topic="series"><b>02 · CIRCUIT</b><strong>직렬회로</strong></button>
+   <button class="topic" data-topic="parallel"><b>03 · CIRCUIT</b><strong>병렬회로</strong></button>
+   <button class="topic" data-topic="equiv"><b>04 · ANALYSIS</b><strong>합성저항</strong></button>
+   <button class="topic" data-topic="led"><b>05 · COMPONENT</b><strong>LED와 다이오드</strong></button>
+  </div>
+  <div class="lesson">
+   <div class="lesson-box"><h3 id="lessonTitle">옴의 법칙</h3><p id="lessonText">옴의 법칙은 도체 양단의 전압이 커질수록 전류가 커지고, 저항이 커질수록 전류가 작아지는 관계를 나타냅니다.</p><div class="formula" id="formula">V = I × R</div><p id="example">예시: 12V 전원에 200Ω 저항을 연결하면 I = 12 ÷ 200 = 0.06A, 즉 60mA가 흐릅니다.</p><button class="action secondary" onclick="go('missions')">관련 미션 도전하기 →</button></div>
+   <div class="lesson-box"><h3>직접 확인하기</h3><p>입력값을 바꾸어 결과가 어떻게 달라지는지 확인해 보세요.</p><div class="two"><div class="field"><label id="inputALabel">전압 (V)</label><input id="learnA" type="number" value="12"></div><div class="field"><label id="inputBLabel">저항 (Ω)</label><input id="learnB" type="number" value="200"></div></div><div class="feedback" id="learnResult">전류: 60.00mA</div><h3 style="margin-top:20px">QUICK QUIZ</h3><p id="quizQuestion">전압이 12V이고 저항이 200Ω일 때 전류는 얼마일까요?</p><div class="quiz-options" id="quizOptions"><button onclick="answerQuiz(0)">30mA</button><button onclick="answerQuiz(1)">60mA</button><button onclick="answerQuiz(2)">100mA</button><button onclick="answerQuiz(3)">240mA</button></div><div class="quiz-feedback" id="quizFeedback"></div></div>
+  </div>
+ </div>
+</section>
+</main>
+<div class="footer">ELECTRO LAB · VIRTUAL ELECTRONICS LABORATORY · LEARN / ANALYZE / DESIGN</div>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+function go(page){document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===page));document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===page));window.scrollTo({top:0,behavior:'smooth'});if(page==='analysis')updateAnalysis()}
+document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()=>go(b.dataset.page)));
+function val(id,def){const n=Number($(id).value);return Number.isFinite(n)&&n>0?n:def}
+function calc(v,r1,r2,type){let r=type==='series'?r1+r2:type==='parallel'?1/(1/r1+1/r2):r1;return {r,i:v/r,p:v*v/r}}
+function updateAnalysis(){
+ const v=val('voltage',12),r1=val('r1',100),r2=val('r2',200),type=$('topology').value;
+ const c=calc(v,r1,r2,type),ma=c.i*1000;
+ $('currentMa').textContent=ma.toFixed(2);$('eqR').textContent=c.r.toFixed(2)+' Ω';$('currentA').textContent=c.i.toFixed(4)+' A';$('power').textContent=c.p.toFixed(3)+' W';$('voltageOut').textContent=v.toFixed(1)+' V';$('typeLabel').textContent=type.toUpperCase();
+ let parts='';
+ if(type==='series')parts='<rect class="part" x="170" y="62" width="86" height="34" rx="5"/><rect class="part" x="310" y="62" width="86" height="34" rx="5"/><text class="svgtext" x="213" y="84" text-anchor="middle">R₁</text><text class="svgtext" x="353" y="84" text-anchor="middle">R₂</text><path class="wire" d="M70 79 H170 M256 79 H310 M396 79 H520 V145 H70 V98"/>';
+ else if(type==='parallel')parts='<path class="wire" d="M70 79 H150 V48 H440 V79 H520 V145 H70 V98 M150 48 V79 M440 48 V79 M150 110 V145 M440 110 V145"/><rect class="part" x="235" y="31" width="100" height="34" rx="5"/><rect class="part" x="235" y="93" width="100" height="34" rx="5"/><text class="svgtext" x="285" y="53" text-anchor="middle">R₁</text><text class="svgtext" x="285" y="115" text-anchor="middle">R₂</text>';
+ else parts='<rect class="part" x="245" y="62" width="110" height="34" rx="5"/><text class="svgtext" x="300" y="84" text-anchor="middle">R₁</text><path class="wire" d="M70 79 H245 M355 79 H520 V145 H70 V98"/>';
+ $('circuitSvg').innerHTML='<svg class="circuit" viewBox="0 0 600 180" role="img" aria-label="회로도"><circle class="part" cx="70" cy="79" r="23"/><text class="svgtext" x="70" y="83" text-anchor="middle">'+v+'V</text>'+parts+'<text class="svgtext" x="545" y="84" text-anchor="end">I = '+ma.toFixed(2)+' mA</text><text class="svgtext" x="70" y="166" text-anchor="middle">DC SOURCE</text></svg>';
+ drawGraph(c.r,v);
+}
+function drawGraph(currentR,v){const cv=$('graph'),ctx=cv.getContext('2d'),w=cv.width,h=cv.height;ctx.clearRect(0,0,w,h);const L=48,R=12,T=12,B=35,pw=w-L-R,ph=h-T-B;const maxR=Math.max(540,currentR*1.7),maxI=Math.max(60,v/Math.max(1,maxR/1)*1000*1.25,currentR? v/currentR*1000*1.3:60);ctx.font='12px Arial';ctx.strokeStyle='#234354';ctx.fillStyle='#91adbd';ctx.lineWidth=1;
+for(let i=0;i<=5;i++){let y=T+ph*i/5;ctx.beginPath();ctx.moveTo(L,y);ctx.lineTo(w-R,y);ctx.stroke();ctx.fillText((maxI*(1-i/5)).toFixed(0),5,y+4)}
+for(let i=0;i<=5;i++){let x=L+pw*i/5;ctx.beginPath();ctx.moveTo(x,T);ctx.lineTo(x,T+ph);ctx.stroke();ctx.fillText((maxR*i/5).toFixed(0),x-10,h-10)}
+ctx.strokeStyle='#40d8f5';ctx.lineWidth=3;ctx.beginPath();for(let i=0;i<=160;i++){let rr=Math.max(1,maxR*i/160+1),ii=v/rr*1000,x=L+rr/maxR*pw,y=T+ph-(ii/maxI)*ph;if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)}ctx.stroke();
+let px=L+currentR/maxR*pw,py=T+ph-(v/currentR*1000/maxI)*ph;ctx.fillStyle='#ffd36b';ctx.beginPath();ctx.arc(px,py,6,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#fff1b5';ctx.stroke();}
+['voltage','r1','r2','topology'].forEach(id=>$(id).addEventListener('input',updateAnalysis));updateAnalysis();
+let activeMission=0;
+function openMission(n){activeMission=n;const detail=$('missionDetail');detail.classList.add('show');$('missionTitle').textContent='MISSION 0'+n+' · '+['','기본 회로 설계','직렬·병렬회로 분석','회로 설계 최적화'][n];let brief,theory,inputs='';
+if(n===1){brief='5V 전원에서 10mA의 전류가 흐르도록 저항 하나를 선택하세요. 목표 전류와 실제 전류의 차이를 확인합니다.';theory='옴의 법칙 V=IR을 이용합니다. 전압이 일정할 때 저항이 커지면 전류는 작아집니다. 목표 저항은 R=5/0.01=500Ω입니다.';inputs='<div class="field"><label>저항값 R (Ω)</label><input class="mission-input" id="mR" type="number" value="500" min="1" oninput="evaluateMission()"></div>'}
+if(n===2){brief='12V 전원에 100Ω과 200Ω 저항을 연결합니다. 직렬과 병렬을 선택해 합성저항과 전체 전류를 비교하세요.';theory='직렬은 R=R₁+R₂, 병렬은 1/R=1/R₁+1/R₂입니다. 같은 전압에서 합성저항이 작아지면 전체 전류는 커집니다.';inputs='<div class="design-controls"><div class="field"><label>연결 방식</label><select class="mission-input" id="mType" onchange="evaluateMission()"><option value="series">직렬</option><option value="parallel">병렬</option></select></div><div class="field"><label>R₁ (Ω)</label><input class="mission-input" id="mR1" type="number" value="100" min="1" oninput="evaluateMission()"></div><div class="field"><label>R₂ (Ω)</label><input class="mission-input" id="mR2" type="number" value="200" min="1" oninput="evaluateMission()"></div></div>'}
+if(n===3){brief='9V 전원에서 20mA가 흐르도록 저항을 선택하세요. 저항 하나 또는 두 개의 직렬 조합으로 목표에 가까운 회로를 설계합니다.';theory='목표 합성저항은 R=V/I=9/0.02=450Ω입니다. 저항 두 개를 직렬로 연결하면 저항값이 합산됩니다.';inputs='<div class="design-controls"><div class="field"><label>저항 개수</label><select class="mission-input" id="mCount" onchange="toggleM3()"><option value="1">1개</option><option value="2">2개 직렬</option></select></div><div class="field"><label>R₁ (Ω)</label><input class="mission-input" id="mR1" type="number" value="450" min="1" oninput="evaluateMission()"></div><div class="field" id="mR2Wrap" style="display:none"><label>R₂ (Ω)</label><input class="mission-input" id="mR2" type="number" value="230" min="1" oninput="evaluateMission()"></div></div>'}
+$('missionBrief').textContent=brief;$('missionTheory').textContent=theory;$('missionInputs').innerHTML=inputs;$('missionOutput').textContent='저항값을 입력하면 설계 결과가 표시됩니다.';detail.scrollIntoView({behavior:'smooth',block:'start'});evaluateMission()}
+function toggleM3(){let two=$('mCount').value==='2';$('mR2Wrap').style.display=two?'block':'none';evaluateMission()}
+function evaluateMission(){if(!activeMission)return;let v,target,r;if(activeMission===1){v=5;target=10;r=val('mR',500)}else if(activeMission===2){v=12;let a=val('mR1',100),b=val('mR2',200);let t=$('mType').value;r=calc(v,a,b,t).r;target=null}else{v=9;target=20;r=val('mR1',450)+(($('mCount').value==='2')?val('mR2',230):0)}
+let ma=v/r*1000;if(activeMission===2){$('missionOutput').innerHTML='합성저항 <b>'+r.toFixed(2)+'Ω</b> · 전체 전류 <b>'+ma.toFixed(2)+'mA</b><br>'+( $('mType').value==='series'?'직렬 연결은 저항이 합산되어 전류가 작아집니다.':'병렬 연결은 합성저항이 작아져 전류가 커집니다.');return}
+let diff=ma-target,ok=Math.abs(diff)<=0.5;$('missionOutput').innerHTML='<b>설계 전류: '+ma.toFixed(2)+'mA</b> · 목표: '+target+'mA<br>'+(ok?'설계 목표에 도달했습니다. 적절한 저항값을 선택했습니다.':diff>0?'현재 전류가 목표보다 '+diff.toFixed(2)+'mA 높습니다. 저항값을 높이면 전류를 줄일 수 있습니다.':'현재 전류가 목표보다 '+Math.abs(diff).toFixed(2)+'mA 낮습니다. 저항값을 낮추면 전류를 높일 수 있습니다.')}
+function closeMission(){$('missionDetail').classList.remove('show');activeMission=0}
+const lessons={
+ohm:{title:'옴의 법칙',text:'옴의 법칙은 전압·전류·저항 사이의 관계를 나타냅니다. 전압이 커지면 전류가 커지고, 저항이 커지면 전류가 작아집니다.',formula:'V = I × R',example:'예시: 12V 전원과 200Ω 저항 → I=12/200=0.06A=60mA',a:'전압 (V)',b:'저항 (Ω)',quiz:'12V와 200Ω일 때 전류는?',opts:['30mA','60mA','100mA','240mA'],correct:1},
+series:{title:'직렬회로',text:'부품을 한 경로로 이어 연결한 회로입니다. 모든 저항에 같은 전류가 흐르며 전압은 각 저항에 나누어 걸립니다.',formula:'R = R₁ + R₂',example:'예시: 100Ω과 200Ω을 직렬 연결하면 합성저항은 300Ω입니다.',a:'전압 (V)',b:'전체 저항 (Ω)',quiz:'100Ω과 200Ω을 직렬 연결한 합성저항은?',opts:['50Ω','100Ω','200Ω','300Ω'],correct:3},
+parallel:{title:'병렬회로',text:'전류가 여러 갈래로 나뉘는 회로입니다. 각 가지에 걸리는 전압은 같고, 전체 전류는 가지 전류의 합입니다.',formula:'1/R = 1/R₁ + 1/R₂',example:'예시: 100Ω과 200Ω 병렬 연결 → 합성저항은 약 66.67Ω입니다.',a:'전압 (V)',b:'합성저항 (Ω)',quiz:'100Ω과 200Ω 병렬 연결의 합성저항은?',opts:['약 66.67Ω','150Ω','200Ω','300Ω'],correct:0},
+equiv:{title:'합성저항',text:'여러 저항을 하나의 등가 저항으로 바꾸어 전체 회로를 간단히 분석하는 방법입니다. 직렬과 병렬의 계산식이 다릅니다.',formula:'직렬: R=R₁+R₂',example:'병렬에서는 역수의 합을 이용합니다. 두 저항이 같다면 합성저항은 각 저항의 절반입니다.',a:'R₁ (Ω)',b:'R₂ (Ω)',quiz:'같은 100Ω 저항 2개를 병렬 연결하면?',opts:['25Ω','50Ω','100Ω','200Ω'],correct:1},
+led:{title:'LED와 다이오드',text:'다이오드는 전류를 주로 한 방향으로 흐르게 하는 소자이며, LED는 순방향 전류가 흐를 때 빛을 냅니다. LED에는 전류 제한 저항이 필요합니다.',formula:'R = (Vₛ − Vf) / I',example:'예시: 전원 5V, LED 순방향 전압 2V, 목표 전류 10mA라면 R=(5−2)/0.01=300Ω입니다.',a:'전원 전압 (V)',b:'저항 (Ω)',quiz:'LED 회로에서 직렬 저항의 주요 역할은?',opts:['전압을 생성','전류를 제한','빛을 저장','전류 방향을 바꿈'],correct:1}
+};
+let currentTopic='ohm';
+function selectTopic(key){currentTopic=key;let d=lessons[key];document.querySelectorAll('.topic').forEach(b=>b.classList.toggle('active',b.dataset.topic===key));$('lessonTitle').textContent=d.title;$('lessonText').textContent=d.text;$('formula').textContent=d.formula;$('example').textContent=d.example;$('inputALabel').textContent=d.a;$('inputBLabel').textContent=d.b;$('learnA').value=key==='led'?5:key==='equiv'?100:12;$('learnB').value=key==='led'?300:key==='equiv'?100:key==='series'?300:key==='parallel'?66.67:200;$('quizQuestion').textContent=d.quiz;$('quizOptions').innerHTML=d.opts.map((o,i)=>'<button onclick="answerQuiz('+i+')">'+o+'</button>').join('');$('quizFeedback').textContent='';updateLearn()}
+document.querySelectorAll('.topic').forEach(b=>b.addEventListener('click',()=>selectTopic(b.dataset.topic)));
+function updateLearn(){let a=val('learnA',12),b=val('learnB',200),out='';if(currentTopic==='equiv'){let r=1/(1/a+1/b);out='두 저항을 병렬 연결하면 합성저항은 '+r.toFixed(2)+'Ω입니다.'}else if(currentTopic==='led'){out='LED 전압을 2V로 가정하면 전류는 '+Math.max(0,(a-2)/b*1000).toFixed(2)+'mA입니다.'}else if(currentTopic==='series'){out='직렬 합성저항은 '+b.toFixed(2)+'Ω, 전체 전류는 '+(a/b*1000).toFixed(2)+'mA입니다.'}else if(currentTopic==='parallel'){out='전압 '+a+'V, 합성저항 '+b+'Ω일 때 전체 전류는 '+(a/b*1000).toFixed(2)+'mA입니다.'}else{out='전류: '+(a/b*1000).toFixed(2)+'mA'}$('learnResult').textContent=out}
+$('learnA').addEventListener('input',updateLearn);$('learnB').addEventListener('input',updateLearn);
+function answerQuiz(i){let d=lessons[currentTopic];$('quizFeedback').textContent=i===d.correct?'정답입니다! 핵심 원리를 잘 이해했어요.':'다시 생각해 보세요. 위의 개념과 계산 예시를 확인해 보세요.';$('quizFeedback').style.color=i===d.correct?'#55dfb5':'#ffbd72'}
+selectTopic('ohm');
+</script>
+</body>
+</html>
